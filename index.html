@@ -45,12 +45,10 @@
             #app { max-width: 600px; box-shadow: 0 0 20px rgba(0,0,0,0.1); height: 100vh; }
         }
         
-        /* 파란색 헤더 가로 크기 강제 100% 고정 및 버튼 배치를 위한 relative 속성 추가 */
         .header { width: 100%; background-color: var(--primary-dark); color: white; padding: 14px 16px; text-align: center; font-size: 16px; font-weight: bold; flex-shrink: 0; z-index: 1000; position: relative; }
         
-        /* 대화 삭제 버튼 스타일 */
         .clear-chat-btn {
-            display: none; /* 기본적으로 숨김 (AI 탭에서만 보임) */
+            display: none;
             position: absolute;
             right: 12px;
             top: 50%;
@@ -90,7 +88,6 @@
         
         .chat-bottom-wrapper { flex-shrink: 0; padding: 12px 16px 16px 16px; background-color: white; border-top: 1px solid #E5E8EB; width: 100%; display: flex; flex-direction: column; gap: 12px; }
         
-        /* 30개 선택형 버튼 스크롤 박스화 */
         .chat-examples { display: flex; flex-wrap: wrap; gap: 8px; max-height: 160px; overflow-y: auto; padding-bottom: 4px; width: 100%; align-content: flex-start; }
         .chat-examples::-webkit-scrollbar { width: 5px; }
         .chat-examples::-webkit-scrollbar-thumb { background: #D1D6DB; border-radius: 4px; }
@@ -193,6 +190,7 @@
 
     <div class="tab-wrapper">
         
+        <!-- AI 추천 탭 (Index 0) -->
         <div id="tab-0" class="tab-content tab-hidden-left">
             <div class="chat-container" id="chatContainer">
                 <div class="chat-bubble chat-ai">
@@ -205,6 +203,7 @@
             
             <div class="chat-bottom-wrapper">
                 <div class="chat-examples">
+                    <!-- 계열 및 학과 추천 -->
                     <div class="example-chip" onclick="fillAndSend('공대 희망하는데 2학년 과목 추천해줘')">💻 공학 계열 추천</div>
                     <div class="example-chip" onclick="fillAndSend('의약계열/생명공학 필수 과목이 뭐야?')">⚕️ 의약/생명 계열 추천</div>
                     <div class="example-chip" onclick="fillAndSend('경영학과 가고 싶은데 뭘 들어야 해?')">📈 경영/경제 추천</div>
@@ -216,11 +215,13 @@
                     <div class="example-chip" onclick="fillAndSend('미디어 커뮤니케이션/언론 지망생 추천')">🎥 미디어/언론 추천</div>
                     <div class="example-chip" onclick="fillAndSend('심리학과 가려면 뭐 들어야 해?')">🧠 심리학과 추천</div>
                     
+                    <!-- 과학중점과정 -->
                     <div class="example-chip" onclick="fillAndSend('과학중점과정이 뭐야?')">🔬 과학중점과정 이란?</div>
                     <div class="example-chip" onclick="fillAndSend('과중반 필수 조건이 어떻게 돼?')">📋 과중반 필수 조건</div>
                     <div class="example-chip" onclick="fillAndSend('과중반 수학 선택은 어떻게 권장해?')">🔢 과중반 수학 선택</div>
                     <div class="example-chip" onclick="fillAndSend('과중반 3학년 심화과목은 몇 개 들어야 해?')">📈 과중반 3학년 심화</div>
                     
+                    <!-- 학교 규칙 및 제한 -->
                     <div class="example-chip" onclick="fillAndSend('국영수 제한 81학점이 무슨 뜻이야?')">🚫 국영수 81학점 제한</div>
                     <div class="example-chip" onclick="fillAndSend('2학년 때 선택과목 몇 개 골라야 해?')">✌️ 2학년 선택과목 개수</div>
                     <div class="example-chip" onclick="fillAndSend('3학년 때는 선택과목 몇 개 골라?')">🤟 3학년 선택과목 개수</div>
@@ -228,6 +229,7 @@
                     <div class="example-chip" onclick="fillAndSend('총 이수 학점이 174학점이야?')">💯 총 교과 학점 안내</div>
                     <div class="example-chip" onclick="fillAndSend('각 교과군별 필수 학점이 뭐야?')">📌 교과별 필수 학점</div>
                     
+                    <!-- 세부 과목 질문 -->
                     <div class="example-chip" onclick="fillAndSend('등급(9등급제) 안 나오는 과목도 있어?')">📊 등급 산출 안 되는 과목</div>
                     <div class="example-chip" onclick="fillAndSend('P/F 과목이 무슨 뜻이야?')">✅ P/F 과목이란?</div>
                     <div class="example-chip" onclick="fillAndSend('경제 수학이랑 전문 수학 차이가 뭐야?')">📐 경제수학 vs 전문수학</div>
@@ -240,12 +242,13 @@
                     <div class="example-chip" onclick="fillAndSend('수능에서 유리한 선택과목이 있을까?')">🎓 수능 유리한 과목</div>
                 </div>
                 <div class="chat-input-area">
-                    <input type="text" class="chat-input" id="aiInput" placeholder="예: 생명공학 희망하는데 어떤 과목 들어야해?">
+                    <input type="text" class="chat-input" id="aiInput" placeholder="자유 질문 입력 (하루 5회 제한)">
                     <button class="chat-send" onclick="sendAiMsg()">➤</button>
                 </div>
             </div>
         </div>
 
+        <!-- 수강연습 탭 (Index 1) -->
         <div id="tab-1" class="tab-content tab-active">
             <div class="warning-banner">
                 💡 이 화면은 실제 수강 신청이 아니며, 선택한 내역은 학교 시스템에 저장되지 않습니다. 아래에서 희망하는 선택 과목을 체크한 후 필수 이수학점 만족 여부를 확인해보세요.
@@ -291,6 +294,7 @@
             <div id="validationResult" class="validation-results"></div>
         </div>
 
+        <!-- 문의 탭 (Index 2) -->
         <div id="tab-2" class="tab-content tab-hidden-right">
             <textarea class="inquiry-textarea" id="inquiryText" placeholder="오류 사항이나 문의할 내용을 입력해 주세요! 반영이 되도록 노력하겠습니다!"></textarea>
             <button class="submit-btn" style="width: 100%; border-radius: 16px;" onclick="sendInquiry()">메일 보내기</button>
@@ -298,6 +302,7 @@
         
     </div>
 
+    <!-- 하단 네비게이션바 -->
     <div class="bottom-nav">
         <div class="nav-item" id="nav-0" onclick="switchTab(0)">
             <div class="nav-icon">🤖</div>
@@ -319,7 +324,6 @@
 <script>
     // --- 1. 과목 데이터 구조 ---
     const db = [
-        // 1-1
         { id:'11_01', sem:'1-1', name:'공통국어 1', type:'공통', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'11_02', sem:'1-1', name:'공통수학 1', type:'공통', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'11_03', sem:'1-1', name:'공통영어 1', type:'공통', cat:'영어', grade:'5단계/등급O', req:true, cred:3 },
@@ -331,7 +335,6 @@
         { id:'11_09', sem:'1-1', name:'음악/미술', type:'공통', cat:'예술', grade:'3단계/등급X', req:true, cred:2 },
         { id:'11_10', sem:'1-1', name:'정보/한문', type:'공통', cat:'정보/한문', grade:'5단계/등급O', req:true, cred:3 },
         
-        // 1-2
         { id:'12_01', sem:'1-2', name:'공통국어 2', type:'공통', cat:'국어', grade:'5단계/등급O', req:true, cred:3 },
         { id:'12_02', sem:'1-2', name:'공통수학 2', type:'공통', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'12_03', sem:'1-2', name:'공통영어 2', type:'공통', cat:'영어', grade:'5단계/등급O', req:true, cred:4 },
@@ -343,7 +346,6 @@
         { id:'12_09', sem:'1-2', name:'미술/음악', type:'공통', cat:'예술', grade:'3단계/등급X', req:true, cred:2 },
         { id:'12_10', sem:'1-2', name:'한문/정보', type:'공통', cat:'정보/한문', grade:'5단계/등급O', req:true, cred:3 },
 
-        // 2-1
         { id:'21_01', sem:'2-1', name:'문학', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'21_02', sem:'2-1', name:'대수', type:'일반', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'21_03', sem:'2-1', name:'영어 I', type:'일반', cat:'영어', grade:'5단계/등급O', req:true, cred:4 },
@@ -365,7 +367,6 @@
         { id:'21_s15', sem:'2-1', name:'일본어', type:'일반', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s16', sem:'2-1', name:'중국어', type:'일반', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3 },
 
-        // 2-2
         { id:'22_01', sem:'2-2', name:'화법과 언어', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'22_02', sem:'2-2', name:'미적분 I', type:'일반', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'22_03', sem:'2-2', name:'영어 II', type:'일반', cat:'영어', grade:'5단계/등급O', req:true, cred:4 },
@@ -388,7 +389,6 @@
         { id:'22_s16', sem:'2-2', name:'일본어 회화', type:'진로', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s17', sem:'2-2', name:'중국 문화', type:'융합', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3 },
 
-        // 3-1
         { id:'31_01', sem:'3-1', name:'독서와 작문', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:3 },
         { id:'31_02', sem:'3-1', name:'확률과 통계', type:'일반', cat:'수학', grade:'5단계/등급O', req:true, cred:3 },
         { id:'31_03', sem:'3-1', name:'심화 영어 독해와 작문', type:'진로', cat:'영어', grade:'5단계/등급O', req:true, cred:3 },
@@ -415,7 +415,6 @@
         { id:'31_s19', sem:'3-1', name:'관광 중국어', type:'진로', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3 },
         { id:'31_s20', sem:'3-1', name:'논리와 사고', type:'진로', cat:'교양', grade:'P/F', req:false, cred:3, pair:'논리' },
 
-        // 3-2
         { id:'32_01', sem:'3-2', name:'독서 토론과 글쓰기', type:'융합', cat:'국어', grade:'5단계/등급O', req:true, cred:3 },
         { id:'32_02', sem:'3-2', name:'수학과 문화', type:'융합', cat:'수학', grade:'5단계/등급O', req:true, cred:3 },
         { id:'32_03', sem:'3-2', name:'심화 영어', type:'진로', cat:'영어', grade:'5단계/등급O', req:true, cred:3 },
@@ -484,6 +483,7 @@
             renderChatHistory();
         }
 
+        // 제한 초과 시 채팅창만 비활성화 (버튼은 활성 유지)
         if (checkDailyLimit() >= 5) {
             disableChatInput();
         }
@@ -633,7 +633,6 @@
             newTab.className = 'tab-content tab-active';
         }
 
-        // AI 탭일 때만 '대화 삭제' 버튼 표시
         const clearBtn = document.getElementById('clearChatBtn');
         if (newIndex === 0) {
             clearBtn.style.display = 'block';
@@ -961,25 +960,19 @@
         }
     }
 
+    // 5회 초과 시 입력창 차단 (단, 선택 버튼은 무제한 사용 가능하도록 비활성화 안 함)
     function disableChatInput() {
         const inputField = document.getElementById('aiInput');
         const sendBtn = document.querySelector('.chat-send');
         
         inputField.disabled = true;
-        inputField.placeholder = "오늘 질문 횟수(5회)를 모두 사용했습니다.";
+        inputField.placeholder = "오늘 질문 횟수(5회) 초과. 위의 버튼을 이용하세요!";
         inputField.style.opacity = "0.5";
         
         sendBtn.disabled = true;
         sendBtn.style.backgroundColor = "#D1D6DB";
-
-        const chips = document.querySelectorAll('.example-chip');
-        chips.forEach(chip => {
-            chip.style.opacity = "0.4";
-            chip.style.pointerEvents = "none";
-        });
     }
 
-    // --- 대화 기록 완전 삭제 기능 ---
     function clearChat() {
         if (confirm("대화 기록을 모두 삭제하시겠습니까?\n(하루 이용 제한 횟수는 초기화되지 않습니다)")) {
             chatHistory = [];
@@ -991,26 +984,63 @@
 
     const GEMINI_API_KEY = "AQ.Ab8RN6KCAMzAhxCEppVCMf2NHM7T39XTNGX-RxU3paCUWKE13w";
 
+    // --- 정해진 30개의 답안 데이터 (API 호출 X, 무제한) ---
+    const predefinedAnswers = {
+        '공대 희망하는데 2학년 과목 추천해줘': '공학 계열 진학을 희망하신다면 수학과 과학 역량이 매우 중요합니다.<br><br>2학년 선택 과목으로 <b>물리학, 화학</b>을 필수로 이수하시고, 수학에서는 <b>기하</b>나 <b>인공지능 수학</b>을 선택하는 것을 강력히 추천합니다!',
+        '의약계열/생명공학 필수 과목이 뭐야?': '의약 및 생명공학 계열은 생명 현상과 화학적 지식이 기초가 됩니다.<br><br>2학년 과목 중 <b>화학, 생명과학</b>은 필수적으로 선택하시고, 여유가 된다면 진로 과목으로 관련 탐구 과목을 선택해보세요.',
+        '경영학과 가고 싶은데 뭘 들어야 해?': '경영/경제 계열은 수학적 사고력과 사회 현상에 대한 이해가 필요합니다.<br><br>2학년 과목으로 <b>경제, 세계사</b> 등의 사회 과목과 함께 수학 과목(대수, 미적분 등)에 집중하는 것을 추천합니다.',
+        '문과(인문학) 추천 과목 알려줘': '인문학/어문계열 진학을 목표로 하신다면 다양한 언어와 문화, 역사에 대한 이해가 중요합니다.<br><br>2학년 선택 과목으로 <b>세계사, 세계 시민과 지리</b>, 그리고 <b>제2외국어(일본어/중국어)</b>를 추천합니다.',
+        '사범대/교육학과 지망생 추천 과목은?': '교육 계열은 가르치고자 하는 전공 과목을 깊이 있게 이수하는 것이 최우선입니다.<br><br>공통적으로는 <b>현대사회와 윤리</b>와 같은 과목을 추천하며, 본인의 세부 전공(국어교육, 수학교육 등)에 맞춰 관련 심화 과목을 선택하세요.',
+        '미대나 체대 등 예체능 과목 추천해줘': '예체능 계열은 실기 역량이 가장 중요하므로 <b>기초 체육 전공 실기</b> 등 관련된 진로 과목을 최우선으로 선택하세요.<br><br>예술 계열은 3학년 때 개설되는 심화 예술 과목들을 미리 계획해두는 것이 좋습니다.',
+        '컴퓨터공학과/소프트웨어 추천 과목': '소프트웨어 및 컴공 계열은 논리적 사고력과 컴퓨터적 사고가 필수입니다.<br><br>2학년 때 <b>인공지능 기초</b>와 <b>물리학</b>, 그리고 수학 과목을 선택하시면 큰 도움이 됩니다.',
+        '간호학과 가려면 과학 뭐 선택해?': '간호학과는 인체와 화학 반응에 대한 이해가 필요하므로 <b>생명과학</b>과 <b>화학</b>을 필수적으로 이수하시는 것이 입시에 유리합니다.',
+        '미디어 커뮤니케이션/언론 지망생 추천': '언론/미디어 분야는 사회를 바라보는 비판적 시각과 소통 능력이 필요합니다.<br><br><b>현대사회와 윤리, 정치</b> 등의 사회 과목과 국어/영어 심화 과목을 골고루 추천합니다.',
+        '심리학과 가려면 뭐 들어야 해?': '심리학은 인문학과 자연과학의 융합적 성격을 띱니다.<br><br><b>생명과학</b>과 함께 <b>현대사회와 윤리, 정치</b> 등의 사회 과목을 골고루 수강하는 것을 추천합니다.',
+        '과학중점과정이 뭐야?': '과학중점과정은 일반계 고등학교에서 수학과 과학 교육을 강화하여 심도 있는 학습을 제공하는 교육과정입니다.<br><br>3년간 <b>수학/과학/정보 교과를 총 이수 학점의 45% 이상(79학점 이상)</b> 이수해야 합니다.',
+        '과중반 필수 조건이 어떻게 돼?': '김포고 과학중점과정의 필수 조건은 다음과 같습니다.<br><br>1) 2학년 때 <b>물/화/생/지 4과목 모두 이수</b><br>2) 3학년 때 <b>과학 진로(심화) 과목 6개 이상</b> 이수<br>3) 3년간 수/과/정 총합 <b>79학점 이상</b>',
+        '과중반 수학 선택은 어떻게 권장해?': '과학중점과정 학생은 탄탄한 수학적 기초가 필수이므로, 3년간 개설되는 수학 교과 중 <b>4과목 이상</b>을 이수하는 것을 강력히 권장합니다.',
+        '과중반 3학년 심화과목은 몇 개 들어야 해?': '과학중점과정을 이수하려면 3학년 때 개설되는 과학 진로(심화) 과목(예: 전자기와 양자, 화학 반응의 세계 등)을 <b>최소 6과목 이상</b> 필수로 이수해야 합니다.',
+        '국영수 제한 81학점이 무슨 뜻이야?': '교육부 지침에 따라 고등학교 3년간 <b>국어, 영어, 수학 교과의 총 이수 학점 합이 81학점을 초과할 수 없습니다.</b> 수강 신청 시 이 세 과목이 과도하게 몰리지 않도록 주의해야 합니다.',
+        '2학년 때 선택과목 몇 개 골라야 해?': '2학년 때는 1학기와 2학기 모두 지정된 필수 과목 외에 <b>각 학기당 5과목</b>을 학생 본인의 진로와 흥미에 맞춰 선택해야 합니다.',
+        '3학년 때는 선택과목 몇 개 골라?': '3학년 때는 1학기와 2학기 모두 <b>각 학기당 총 6과목</b>의 선택 과목을 골라야 합니다. (3학년 2학기는 그룹별 선택 제한이 있으니 모의 제출을 통해 확인해 보세요!)',
+        '수강신청은 어떻게 하고 언제까지야?': '수강신청은 학교에서 안내하는 지정된 기간 내에 전용 시스템에 접속하여 진행됩니다. 정확한 날짜는 추후 <b>학교 가정통신문 및 공지사항</b>을 반드시 확인해 주세요.',
+        '총 이수 학점이 174학점이야?': '네, 맞습니다. 고등학교 3년간 교과 수업을 통해 이수해야 하는 <b>총 교과 학점은 174학점</b>입니다. (창의적 체험활동을 포함하면 192학점입니다.)',
+        '각 교과군별 필수 학점이 뭐야?': '졸업을 위한 교과별 필수 이수 학점입니다.<br>▶ 국어 8, 수학 8, 영어 8, 한국사 6, 사회 8, 과학 10, 체육 10, 예술 6, 생활/교양 15학점',
+        '등급(9등급제) 안 나오는 과목도 있어?': '네, 있습니다. <b>진로 선택 과목</b> 대부분과 <b>교양, P/F 과목</b> 등은 1~9등급으로 산출되지 않고, A/B/C 성취도나 이수 여부만으로 평가됩니다.',
+        'P/F 과목이 무슨 뜻이야?': 'P/F는 Pass(이수) / Fail(미이수)의 약자입니다. 성적이나 등급이 나오지 않고, 수업을 성실히 들어 필수 요건을 채웠는지 여부만으로 이수를 인정받는 과목입니다.',
+        '경제 수학이랑 전문 수학 차이가 뭐야?': '<b>경제 수학</b>은 경제 현상을 수학으로 이해하여 상경계열 진학에 유리하며, <b>전문 수학</b>은 이공계열 심화 학습을 위한 고난도 수학 과목입니다.',
+        '물리학 꼭 들어야 할까?': '공과대학이나 자연과학대학 진학을 희망한다면 <b>물리학 이수는 사실상 필수</b>입니다. 하지만 인문사회나 예체능 계열의 경우 본인의 진로에 따라 선택하지 않아도 무방합니다.',
+        '제2외국어 꼭 들어야 돼? 중국어/일본어 추천': '어문계열이나 인문계열 진학 시 제2외국어 이수 기록이 긍정적으로 작용할 수 있습니다. 중국어와 일본어 중 본인이 평소 관심 있던 언어를 선택하는 것이 가장 좋습니다.',
+        '사회문제 탐구는 어떤 과목이야?': '현실 사회에서 발생하는 다양한 문제(환경, 인권 등)를 스스로 탐구하고 토론하는 과목입니다. <b>사회/언론/행정 계열 지망생에게 매우 추천</b>합니다.',
+        '진로 과목이랑 일반 과목 차이가 뭐야?': '<b>일반 선택 과목</b>은 주로 9등급제로 평가되며 수능 출제 범위에 포함됩니다. 반면 <b>진로 선택 과목</b>은 학생의 진로에 맞춘 심화 과목으로 대부분 A/B/C 절대평가로 산출됩니다.',
+        '기후변화나 환경 관련 과목 추천해줘': '환경 문제에 관심이 많다면 3학년 과목 중 <b>기후변화와 지속 가능한 세계(사회)</b> 또는 <b>기후변화와 환경생태(과학)</b> 과목을 강력히 추천합니다!',
+        '심화 국어/영어/수학 추천해줘': '3학년 때 개설되는 <b>심화 영어 독해와 작문, 전문 수학, 언어생활 탐구</b> 등의 진로/융합 과목을 수강하면 생활기록부에 학업 역량을 깊이 있게 드러낼 수 있습니다.',
+        '수능에서 유리한 선택과목이 있을까?': '정시(수능)를 주력으로 한다면, 본인이 실제 수능에서 응시할 과목(미적분/확률과통계, 탐구 과목 등)을 학교 수업에서도 똑같이 선택하여 내신과 수능 대비를 병행하는 것이 가장 유리합니다.'
+    };
+
     function fillAndSend(msg) {
         document.getElementById('aiInput').value = msg;
         sendAiMsg();
     }
 
     async function sendAiMsg() {
-        if (checkDailyLimit() >= 5) {
+        const input = document.getElementById('aiInput');
+        const text = input.value.trim();
+        if(!text) return;
+
+        // 정해진 30개의 버튼식 질문인지 확인
+        const isPredefined = predefinedAnswers.hasOwnProperty(text);
+
+        // 사용자가 자유 타이핑을 했는데 5회를 초과한 경우 (에러 처리)
+        if (!isPredefined && checkDailyLimit() >= 5) {
             const container = document.getElementById('chatContainer');
-            container.innerHTML += `<div class="chat-bubble chat-ai">하루 이용 5번을 초과하였습니다. 내일 다시 시도해 주세요.</div>`;
+            container.innerHTML += `<div class="chat-bubble chat-ai">AI 사용량인 5번을 초과했습니다. 다음날에 다시 시도해주세요.</div>`;
             container.scrollTop = container.scrollHeight;
             disableChatInput();
             return;
         }
 
-        const input = document.getElementById('aiInput');
-        const text = input.value.trim();
-        if(!text) return;
-
         const container = document.getElementById('chatContainer');
-        
         chatHistory.push({ role: 'user', text: text });
         container.innerHTML += `<div class="chat-bubble chat-user">${text.replace(/\n/g, '<br>')}</div>`;
         input.value = '';
@@ -1020,22 +1050,33 @@
         container.innerHTML += `<div class="chat-bubble chat-ai" id="${loadingId}">답변을 생각하는 중입니다...</div>`;
         container.scrollTop = container.scrollHeight;
 
+        // 1. 선택형 버튼 질문 (무조건 내장 답변 + 횟수 차감 안함!)
+        if (isPredefined) {
+            document.getElementById(loadingId).innerHTML = predefinedAnswers[text];
+            chatHistory.push({ role: 'model', text: predefinedAnswers[text] });
+            saveChatMemory();
+            container.scrollTop = container.scrollHeight;
+            return; 
+        }
+
+        // 2. 이스터에그 (견범, 송율근)
         if (text.includes('견범')) {
             document.getElementById(loadingId).innerText = "의자왕";
             chatHistory.push({ role: 'model', text: "의자왕" });
             saveChatMemory();
-            incrementDailyLimit();
+            incrementDailyLimit(); // 자유 타이핑이므로 횟수 차감
             container.scrollTop = container.scrollHeight;
             return;
         } else if (text.includes('송율근')) {
             document.getElementById(loadingId).innerText = "최고의 프로그래머";
             chatHistory.push({ role: 'model', text: "최고의 프로그래머" });
             saveChatMemory();
-            incrementDailyLimit();
+            incrementDailyLimit(); // 자유 타이핑이므로 횟수 차감
             container.scrollTop = container.scrollHeight;
             return;
         }
 
+        // 3. 실제 구글 AI API 연동 (자유 질문)
         try {
             const schoolData = db.map(c => `- ${c.sem} ${c.req ? '필수' : '선택'}: ${c.name} (${c.cat}, ${c.cred}학점)`).join('\n');
             
@@ -1080,8 +1121,10 @@ ${schoolData}
             }
             
             if (data.error) {
-                document.getElementById(loadingId).innerText = "앗, AI 서버에 에러가 발생했어요. 다음 대화를 계속 진행해주세요. 이 에러에 대한 답변은 저장되지 않습니다.";
+                // API 한도 초과 등의 진짜 서버 에러 발생 시
+                document.getElementById(loadingId).innerText = "AI 사용량인 5번을 초과했습니다. 다음날에 다시 시도해주세요.";
                 chatHistory.pop(); 
+                disableChatInput(); // 즉시 채팅 입력 차단
             } else {
                 let answer = data.candidates[0].content.parts[0].text;
                 answer = answer.replace(/\*/g, ''); 
@@ -1091,11 +1134,12 @@ ${schoolData}
                 chatHistory.push({ role: 'model', text: answer });
                 saveChatMemory();
                 
-                incrementDailyLimit();
+                incrementDailyLimit(); // API 호출에 성공했을 때만 자유 질문 횟수 1회 차감
             }
         } catch (e) {
-            document.getElementById(loadingId).innerText = "앗, AI 서버에 에러가 발생했어요. 다음 대화를 계속 진행해주세요. 이 에러에 대한 답변은 저장되지 않습니다.";
+            document.getElementById(loadingId).innerText = "AI 사용량인 5번을 초과했습니다. 다음날에 다시 시도해주세요.";
             chatHistory.pop();
+            disableChatInput(); // 즉시 채팅 입력 차단
         }
         
         container.scrollTop = container.scrollHeight;
