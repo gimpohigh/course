@@ -1127,10 +1127,14 @@
             if (data.error) {
                 console.error("AI 서버 에러:", data.error);
                 let errorMsg = "앗, AI 서버가 혼잡합니다. 잠시 후 다시 질문해 주세요!";
-                // GAS에서 에러 코드를 포함하여 반환한 경우 처리
-                if (data.error.includes("429")) {
+                
+                // 💡 해결: 에러 데이터가 객체(보따리)일 경우 안전하게 문자열로 변환해서 확인합니다.
+                let errStr = typeof data.error === 'object' ? JSON.stringify(data.error) : data.error;
+                
+                if (errStr.includes("429")) {
                     errorMsg = "현재 질문하는 학생이 너무 많습니다! ⏳ 1분만 기다렸다가 다시 질문해 주세요.";
                 }
+                
                 document.getElementById(loadingId).innerText = errorMsg;
                 chatHistory.pop(); 
             } else {
