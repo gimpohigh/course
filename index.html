@@ -1124,19 +1124,26 @@
             
             const data = await response.json();
             
+            // 🔥 여기서 구글 서버의 에러를 완벽하게 방어합니다!
             if (data.error) {
                 console.error("AI 서버 에러:", data.error);
                 let errorMsg = "앗, AI 서버가 혼잡합니다. 잠시 후 다시 질문해 주세요!";
                 
-                // 💡 해결: 에러 데이터가 객체(보따리)일 경우 안전하게 문자열로 변환해서 확인합니다.
-                let errStr = typeof data.error === 'object' ? JSON.stringify(data.error) : data.error;
-                
-                if (errStr.includes("429")) {
+                // 에러가 객체(Object)로 오든 문자(String)로 오든 안전하게 처리
+                let errStr = "";
+                if (typeof data.error === 'object') {
+                    errStr = JSON.stringify(data.error);
+                } else {
+                    errStr = String(data.error);
+                }
+
+                // 한도 초과(429) 에러 감지
+                if (errStr.includes("429") || errStr.includes("RESOURCE_EXHAUSTED") || errStr.includes("exceeded")) {
                     errorMsg = "현재 질문하는 학생이 너무 많습니다! ⏳ 1분만 기다렸다가 다시 질문해 주세요.";
                 }
                 
                 document.getElementById(loadingId).innerText = errorMsg;
-                chatHistory.pop(); 
+                chatHistory.pop(); // 에러 났으니 방금 한 질문 취소
             } else {
                 let answer = data.candidates[0].content.parts[0].text;
                 answer = answer.replace(/\*/g, ''); 
@@ -1152,7 +1159,6 @@
         }
         container.scrollTop = container.scrollHeight;
     }
-
     const GAS_URL = "https://script.google.com/macros/s/AKfycbyIsvs49HBMqYVjV0XPH5rMBWYNaIRYbOlWy-z4Bv0cOXh1Fp6oOGDW1S_b9vyXIffiEA/exec";
     function sendInquiry() {
         const text = document.getElementById('inquiryText').value.trim();
