@@ -84,7 +84,7 @@
         .chat-send { background-color: var(--primary-dark); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; transition: background-color 0.2s; }
 
         /* --- [수강연습 탭] 공백 처리 --- */
-        #tab-1 { padding-bottom: 10px; } /* 거대한 150px 하단 공백 제거하여 진짜 맨 밑에 배치 */
+        #tab-1 { padding-bottom: 10px; } 
         .warning-banner { background-color: var(--light-orange); color: var(--dark-orange); padding: 12px; border-radius: 12px; font-size: 13px; line-height: 1.4; margin-bottom: 12px; font-weight: 600; flex-shrink: 0; word-break: keep-all; }
         .stats-wrapper { position: sticky; top: -12px; z-index: 100; background-color: var(--bg-color); padding: 8px 0; margin-bottom: 8px; width: 100%; }
         .stats-box { background-color: var(--box-bg); border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 8px; width: 100%; }
@@ -101,9 +101,19 @@
         .color-red { color: var(--dark-red) !important; }
 
         .science-track-wrap { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 12px; font-size: 14px; font-weight: bold; color: var(--text-black); gap: 8px; padding: 0 4px; }
+        
+        /* 🔥 체크박스 선명하게 수정된 부분 */
         .custom-checkbox { width: 20px; height: 20px; border: 2px solid #D1D6DB; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; background: white; flex-shrink: 0; }
         .custom-checkbox.checked { background-color: var(--primary-dark); border-color: var(--primary-dark); }
-        .custom-checkbox.checked::after { content: '✔'; color: white; font-size: 12px; }
+        .custom-checkbox.checked::after { 
+            content: ''; 
+            width: 5px; 
+            height: 9px; 
+            border: solid #FFFFFF; 
+            border-width: 0 2px 2px 0; 
+            transform: rotate(45deg); 
+            margin-bottom: 2px; 
+        }
         .custom-checkbox.disabled { background-color: #F2F4F6; border-color: #E5E8EB; }
         .custom-checkbox.disabled.checked { background-color: #D1D6DB; border-color: #D1D6DB; }
 
@@ -163,17 +173,17 @@
 
         /* 🥚 이스터에그 스타일 (진짜 최하단 배치 & 히트박스 텍스트 크기 맞춤) */
         .easter-egg-wrap {
-            margin-top: auto; /* 부모 컨테이너 기준 최대한 아래로 밀어냄 */
-            padding: 40px 12px 20px 12px; /* 상단 여백으로 자연스럽게 분리 */
+            margin-top: auto; 
+            padding: 40px 12px 20px 12px; 
             text-align: left;
             width: 100%;
         }
         .easter-egg {
-            display: inline-block; /* 히트박스를 딱 텍스트 크기로만 제한 */
-            font-size: 10px;       /* 접속자 수 폰트 크기 일치 */
-            color: var(--text-light-gray); /* 접속자 수 색상 일치 */
-            font-weight: bold;     /* 접속자 수 굵기 일치 */
-            text-decoration: none; /* 밑줄 제거 */
+            display: inline-block; 
+            font-size: 10px;       
+            color: var(--text-light-gray); 
+            font-weight: bold;     
+            text-decoration: none; 
             cursor: pointer;
         }
     </style>
