@@ -160,6 +160,19 @@
         .inquiry-textarea::placeholder { color: var(--text-light-gray); }
         
         #toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: bold; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+
+        /* 🥚 이스터에그 스타일 추가 */
+        .easter-egg-link {
+            position: absolute;
+            bottom: 80px; /* 네비게이션 바 바로 위 */
+            left: 12px;   /* 맨 왼쪽 구석 */
+            font-size: 20px; /* 접속자 수(10px)의 2배 */
+            color: var(--text-light-gray); /* 접속자 수와 같은 색상 */
+            font-weight: bold; /* 같은 폰트 굵기 */
+            text-decoration: none; /* 밑줄 제거 */
+            z-index: 1000;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body>
@@ -275,6 +288,9 @@
         </div>
     </div>
 
+    <!-- 🔥 이스터에그 텍스트 추가 (네비게이션 바로 위, 맨 왼쪽 구석) -->
+    <a href="https://gimpohigh.github.io/easteregg/" class="easter-egg-link">made by 10616 송율근</a>
+
     <div class="bottom-nav">
         <div class="nav-item" id="nav-0" onclick="switchTab(0)">
             <div class="nav-icon">🤖</div>
@@ -293,7 +309,7 @@
 </div>
 
 <script>
-    // 🔥 Firebase 설정 (databaseURL 누락 문제 수정 완료)
+    // 🔥 Firebase 설정
     const firebaseConfig = {
       apiKey: "AIzaSyD-IyAGGXQ69d8LupTU2mKmr87yoenahRo",
       authDomain: "gimpo-monitoring.firebaseapp.com",
