@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>2026 김포고 수강신청 도우미(1학년)</title>
-    <!-- 🔥 파이어베이스 데이터베이스 엔진 탑재 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
@@ -78,7 +77,7 @@
         .chat-input { flex: 1; border: 1px solid #E5E8EB; border-radius: 24px; padding: 12px 16px; outline: none; font-size: 14px; background-color: var(--bg-color); width: 100%; transition: opacity 0.2s; }
         .chat-send { background-color: var(--primary-dark); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; transition: background-color 0.2s; }
 
-        /* --- [수강연습 탭] 모바일 기본 --- */
+        /* --- [수강연습 탭] 공백 처리 --- */
         #tab-1 { padding-bottom: 10px; } 
         .warning-banner { background-color: var(--light-orange); color: var(--dark-orange); padding: 12px; border-radius: 12px; font-size: 13px; line-height: 1.4; margin-bottom: 12px; font-weight: 600; flex-shrink: 0; word-break: keep-all; }
         
@@ -101,7 +100,15 @@
         
         .custom-checkbox { width: 20px; height: 20px; border: 2px solid #D1D6DB; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; background: white; flex-shrink: 0; }
         .custom-checkbox.checked { background-color: var(--primary-dark); border-color: var(--primary-dark); }
-        .custom-checkbox.checked::after { content: ''; width: 5px; height: 9px; border: solid #FFFFFF; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-bottom: 2px; }
+        .custom-checkbox.checked::after { 
+            content: ''; 
+            width: 5px; 
+            height: 9px; 
+            border: solid #FFFFFF; 
+            border-width: 0 2px 2px 0; 
+            transform: rotate(45deg); 
+            margin-bottom: 2px; 
+        }
         .custom-checkbox.disabled { background-color: #F2F4F6; border-color: #E5E8EB; }
         .custom-checkbox.disabled.checked { background-color: #D1D6DB; border-color: #D1D6DB; }
 
@@ -180,7 +187,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
             z-index: 99999;
-            display: none; /* JS에서 제어 */
+            display: none; 
             justify-content: center; align-items: center;
             padding: 20px;
         }
@@ -229,7 +236,7 @@
             cursor: pointer; letter-spacing: 0.5px;
         }
 
-        /* 🔥 데스크탑-모바일 반응형 완벽 최적화 (회색 여백 제거 & 그리드 자동 나열) */
+        /* 🔥 데스크탑-모바일 반응형 완벽 최적화 및 상단 뚫림 방지 버그 픽스 */
         @media (min-width: 800px) {
             body { background-color: var(--bg-color); } 
             #app { 
@@ -237,8 +244,12 @@
                 border: none; 
                 box-shadow: none; 
             }
-            .tab-content { padding: 12px 5%; } 
+            /* 💡 버그 해결: 데스크탑에서도 상단 패딩을 0으로 강제 밀봉하여 스크롤 시 뒤쪽 카드 비침 원천 차단 */
+            .tab-content { padding: 0 5% 12px 5%; } 
             
+            /* 패딩 차단으로 인해 붙어버린 배너에 상단 마진 부여 */
+            .warning-banner { margin-top: 12px; }
+
             /* 학점 박스 한 줄 정렬 (자동 배치) */
             .stats-box { 
                 flex-direction: row; 
@@ -272,7 +283,6 @@
 <body>
 
 <div id="app">
-    <!-- 📢 업데이트 알림 모달 -->
     <div id="updateModalOverlay" class="update-modal-overlay">
         <div class="update-modal">
             <div class="update-modal-header">
@@ -394,7 +404,6 @@
             
             <div id="validationResult" class="validation-results"></div>
             
-            <!-- 🥚 이스터에그 영역 (진짜 맨 밑에 배치) -->
             <div class="easter-egg-wrap">
                 <a href="https://gimpohigh.github.io/easteregg/" class="easter-egg">made by 10616 송율근</a>
             </div>
@@ -484,7 +493,7 @@
         { id:'12_06', sem:'1-2', name:'통합과학 2', type:'공통', cat:'과학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'12_07', sem:'1-2', name:'과학탐구실험 2', type:'공통', cat:'과학', grade:'3단계/등급X', req:true, cred:1 },
         { id:'12_08', sem:'1-2', name:'체육 2', type:'공통', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
-        { id:'12_09', sem:'1-2', name:'미술/음악', type:'공통', cat:'예술', grade:'3단계/등급X', req:true, cred:2 },
+        { id:'12_09', sem:'1-2', name:'미술/음악', type:'공통', cat(--예술), grade:'3단계/등급X', req:true, cred:2 },
         { id:'12_10', sem:'1-2', name:'한문/정보', type:'공통', cat:'정보/한문', grade:'5단계/등급O', req:true, cred:3 },
 
         { id:'21_01', sem:'2-1', name:'문학', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
@@ -495,14 +504,14 @@
         { id:'21_s02', sem:'2-1', name:'인공지능 수학', type:'진로', cat:'수학', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s03', sem:'2-1', name:'영어 독해와 작문', type:'진로', cat:'영어', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s04', sem:'2-1', name:'세계 시민과 지리', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
-        { id:'21_s05', sem:'2-1', name:'세계사', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
+        { id:'21_s05', sem(--2-1), name:'세계사', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s06', sem:'2-1', name:'현대사회와 윤리', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s07', sem:'2-1', name:'정치', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s08', sem:'2-1', name:'경제', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s09', sem:'2-1', name:'물리학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
         { id:'21_s10', sem:'2-1', name:'화학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
         { id:'21_s11', sem:'2-1', name:'생명과학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
-        { id:'21_s12', sem:'2-1', name:'지구과학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
+        { id:'21_s12', sem:'2-1', name:'지구과학', type(--일반), cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
         { id:'21_s13', sem:'2-1', name:'기초 체육 전공 실기', type:'진로', cat:'체육', grade:'5단계/등급O', req:false, cred:3, pair:'체육실기1' },
         { id:'21_s14', sem:'2-1', name:'인공지능 기초', type:'진로', cat:'정보', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s15', sem:'2-1', name:'일본어', type:'일반', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3 },
@@ -511,14 +520,14 @@
         { id:'22_01', sem:'2-2', name:'화법과 언어', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'22_02', sem:'2-2', name:'미적분 I', type:'일반', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'22_03', sem:'2-2', name:'영어 II', type:'일반', cat:'영어', grade:'5단계/등급O', req:true, cred:4 },
-        { id:'22_04', sem:'2-2', name:'스포츠 생활 2', type:'융합', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
+        { id(--22_04), sem:'2-2', name:'스포츠 생활 2', type:'융합', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
         { id:'22_s01', sem:'2-2', name:'문학과 영상', type:'진로', cat:'국어', grade:'5단계/등급O', req:false, cred:3 },
-        { id:'22_s02', sem:'2-2', name:'기하', type:'진로', cat:'수학', grade:'5단계/등급O', req:false, cred:3 },
+        { id:'22_s02', sem:'2-2', name:'기하', type:'진로', cat:'수학', grade(--5단계/등급O), req:false, cred:3 },
         { id:'22_s03', sem:'2-2', name:'영어 발표와 토론', type:'진로', cat:'영어', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s04', sem:'2-2', name:'동아시아 역사 기행', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s05', sem:'2-2', name:'법과 사회', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s06', sem:'2-2', name:'윤리와 사상', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
-        { id:'22_s07', sem:'2-2', name:'한국지리 탐구', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
+        { id:'22_s07', sem:'2-2', name(--한국지리 탐구), name:'한국지리 탐구', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s08', sem:'2-2', name:'금융과 경제생활', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3 },
         { id:'22_s09', sem:'2-2', name:'역학과 에너지', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true },
         { id:'22_s10', sem:'2-2', name:'물질과 에너지', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true },
@@ -545,7 +554,7 @@
         { id:'31_s08', sem:'3-1', name:'기후변화와 지속 가능한 세계', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3, pair:'기후지속' },
         { id:'31_s09', sem:'3-1', name:'전자기와 양자', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'전자기' },
         { id:'31_s10', sem:'3-1', name:'화학 반응의 세계', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'화학반응' },
-        { id:'31_s11', sem:'3-1', name:'생물의 유전', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'유전' },
+        { id:'31_s11', sem:'3-1', name:'생물의 유전', type:'진로', cat:'과학', grade(--5단계/등급O), req:false, cred:3, sciAdv:true, pair:'유전' },
         { id:'31_s12', sem:'3-1', name:'행성우주과학', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'행성' },
         { id:'31_s13', sem:'3-1', name:'기후변화와 환경생태', type:'융합', cat:'과학', grade:'5단계/등급X', req:false, cred:3, pair:'기후환경' },
         { id:'31_s14', sem:'3-1', name:'음악 연주와 창작', type:'진로', cat:'예술', grade:'3단계/등급X', req:false, cred:3 },
@@ -580,7 +589,7 @@
         { id:'32_s17', sem:'3-2', name:'중국어 회화', type:'진로', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3, g:0 },
         { id:'32_s18', sem:'3-2', name:'논리와 사고', type:'진로', cat:'교양', grade:'P/F', req:false, cred:3, pair:'논리', g:0 },
         { id:'32_s19', sem:'3-2', name:'기후변화와 지속 가능한 세계', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3, pair:'기후지속', g:1 },
-        { id:'32_s20', sem:'3-2', name:'사회문제 탐구', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3, g:1 },
+        { id:'32_s20', sem:'3-2', name:'사회문제 탐구', type:'융합', cat:'사회', grade(--5단계/등급X), req:false, cred:3, g:1 },
         { id:'32_s21', sem:'3-2', name:'과학의 역사와 문화', type:'융합', cat:'과학', grade:'5단계/등급X', req:false, cred:3, g:2 },
         { id:'32_s22', sem:'3-2', name:'기후변화와 환경생태', type:'융합', cat:'과학', grade:'5단계/등급X', req:false, cred:3, pair:'기후환경', g:2 }
     ];
@@ -979,6 +988,7 @@
         });
     }
 
+    // 🔥 [복구 완료] 통계 계산 로직: 1, 2, 3학년 필수 과목 '모두' 정상적으로 합산
     function updateStats() {
         let total = 0, kor = 0, math = 0, eng = 0, his = 0, soc = 0, sci = 0, pe = 0, art = 0, etc = 0;
 
@@ -1041,6 +1051,7 @@
             isFail = true;
         }
 
+        // 🔥 [복구 완료] 제출 검사 로직: 1, 2, 3학년 필수 과목 '모두' 정상적으로 검사
         let sums = {국어:0, 수학:0, 영어:0, 한국사:0, 사회:0, 과학:0, 체육:0, 예술:0, '정보/제2외국어/한문/교양':0};
         selectedCourses.forEach(id => {
             const c = db.find(x => x.id === id);
