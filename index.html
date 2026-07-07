@@ -47,7 +47,7 @@
         .clear-chat-btn { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background-color: var(--primary-mid); color: white; border: 1px solid white; border-radius: 14px; padding: 6px 10px; font-size: 11px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; white-space: nowrap; }
         .clear-chat-btn:active { background-color: var(--primary-light); }
 
-        /* 실시간 접속자 수 UI */
+        /* 실시간 접속자 수 UI (상단 뚫림 방지를 위해 패딩 및 배경 강화) */
         .live-counter-wrap { text-align: right; padding: 8px 16px 8px; background-color: var(--bg-color); font-size: 10px; color: var(--text-light-gray); font-weight: bold; z-index: 100; position: relative; }
 
         .tab-wrapper { flex: 1; position: relative; overflow: hidden; background-color: var(--bg-color); width: 100%; z-index: 10; }
@@ -81,6 +81,7 @@
         #tab-1 { padding-bottom: 10px; } 
         .warning-banner { background-color: var(--light-orange); color: var(--dark-orange); padding: 12px; border-radius: 12px; font-size: 13px; line-height: 1.4; margin-bottom: 12px; font-weight: 600; flex-shrink: 0; word-break: keep-all; }
         
+        /* 🔥 상단 투명화(흰줄) 완벽 차단 */
         .stats-wrapper { position: sticky; top: -1px; z-index: 100; background-color: var(--bg-color); padding: 8px 0; margin-bottom: 8px; width: 100%; }
         .stats-box { background-color: var(--box-bg); border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 8px; width: 100%; }
         .stats-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: center; }
@@ -97,6 +98,7 @@
 
         .science-track-wrap { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 12px; font-size: 14px; font-weight: bold; color: var(--text-black); gap: 8px; padding: 0 4px; }
         
+        /* 🔥 체크박스 선명하게 수정된 부분 */
         .custom-checkbox { width: 20px; height: 20px; border: 2px solid #D1D6DB; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; background: white; flex-shrink: 0; }
         .custom-checkbox.checked { background-color: var(--primary-dark); border-color: var(--primary-dark); }
         .custom-checkbox.checked::after { content: ''; width: 5px; height: 9px; border: solid #FFFFFF; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-bottom: 2px; }
@@ -405,7 +407,7 @@
 
     <div class="bottom-nav">
         <div class="nav-item" id="nav-0" onclick="switchTab(0)">
-            <div class="nav-icon">🤖</div>
+            <div class="nav-icon">⚙️</div>
             AI 추천
         </div>
         <div class="nav-item active" id="nav-1" onclick="switchTab(1)">
@@ -460,6 +462,7 @@
 
     let userIP = "local_storage_only";
 
+    // 🔥 오타 완벽하게 복구 완료된 과목 데이터베이스
     const db = [
         { id:'11_01', sem:'1-1', name:'공통국어 1', type:'공통', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'11_02', sem:'1-1', name:'공통수학 1', type:'공통', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
@@ -1251,8 +1254,8 @@
             container.scrollTop = container.scrollHeight;
             return;
         } else if (text.includes('송율근')) {
-            document.getElementById(loadingId).innerText = "최고의 프로그래머";
-            chatHistory.push({ role: 'model', text: "최고의 프로그래머" });
+            document.getElementById(loadingId).innerText = "최고의 프로그래머이자 이 수강신청 도우미 웹사이트를 기획, 제작, 디자인한 핵심 총괄 개발자입니다.";
+            chatHistory.push({ role: 'model', text: "최고의 프로그래머이자 이 수강신청 도우미 웹사이트를 기획, 제작, 디자인한 핵심 총괄 개발자입니다." });
             saveChatMemory();
             incrementDailyLimit(); 
             container.scrollTop = container.scrollHeight;
@@ -1261,7 +1264,8 @@
 
         try {
             const schoolData = db.map(c => `- ${c.sem} ${c.req ? '필수' : '선택'}: ${c.name} (${c.cat}, ${c.cred}학점)`).join('\n');
-            const sysPrompt = `너는 2026 김포고등학교 1학년 수강신청을 돕는 '김포고 수강신청 도우미 AI'야. 반드시 아래 제공된 '김포고등학교 과목 데이터'만을 기반으로 평문으로 친절하게 답변해.`;
+            
+            const sysPrompt = `너는 2026 김포고등학교 1학년 수강신청을 돕는 '김포고 수강신청 도우미 AI'야. 이 사이트(수강신청 도우미 웹 서비스)를 기획하고, 디자인하고, 설계하고, 코딩하여 만든 사람은 오직 '송율근' 한 명이야. 유저가 제작자, 만든 이, 기획자, 개발자, 디자인한 사람을 물어보면 반드시 '송율근'이라고 답변해. 반드시 아래 제공된 '김포고등학교 과목 데이터'만을 기반으로 평문으로 친절하게 답변해.`;
             
             let apiContents = chatHistory.map(h => ({ role: h.role, text: h.text }));
 
@@ -1310,6 +1314,7 @@
         }
         container.scrollTop = container.scrollHeight;
     }
+
     const GAS_URL = "https://script.google.com/macros/s/AKfycbyIsvs49HBMqYVjV0XPH5rMBWYNaIRYbOlWy-z4Bv0cOXh1Fp6oOGDW1S_b9vyXIffiEA/exec";
     function sendInquiry() {
         const text = document.getElementById('inquiryText').value.trim();
