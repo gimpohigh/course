@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>2026 김포고 수강신청 도우미(1학년)</title>
+    <!-- 🔥 파이어베이스 데이터베이스 엔진 탑재 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
@@ -42,29 +43,16 @@
         
         #app { width: 100%; height: 100dvh; margin: 0 auto; background-color: var(--bg-color); display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
         
-        /* 🔥 모바일-데스크탑 반응형 최적화 (어두운 회색 여백 제거 및 자연스러운 너비 확장) */
-        @media (min-width: 800px) {
-            body { background-color: var(--bg-color); } /* 거슬리는 진회색 배경 제거, 앱 배경과 통일 */
-            #app { 
-                max-width: 960px; /* 데스크탑에서 한눈에 들어오는 최적의 시야 비율 */
-                box-shadow: 0 0 30px rgba(0,0,0,0.03); /* 화면이 밋밋하지 않게 아주 연한 그림자 부여 */
-                border-left: 1px solid #E5E8EB; 
-                border-right: 1px solid #E5E8EB; 
-                height: 100vh; 
-                margin: 0 auto; 
-            }
-        }
-        
         .header { width: 100%; background-color: var(--primary-dark); color: white; padding: 14px 16px; text-align: center; font-size: 16px; font-weight: bold; flex-shrink: 0; z-index: 1000; position: relative; }
         
         .clear-chat-btn { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background-color: var(--primary-mid); color: white; border: 1px solid white; border-radius: 14px; padding: 6px 10px; font-size: 11px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; white-space: nowrap; }
         .clear-chat-btn:active { background-color: var(--primary-light); }
 
-        /* 실시간 접속자 수 UI */
-        .live-counter-wrap { text-align: right; padding: 4px 12px 0; background-color: var(--bg-color); font-size: 10px; color: var(--text-light-gray); font-weight: bold; }
+        /* 실시간 접속자 수 UI (상단 뚫림 방지를 위해 패딩 및 배경 강화) */
+        .live-counter-wrap { text-align: right; padding: 8px 16px 8px; background-color: var(--bg-color); font-size: 10px; color: var(--text-light-gray); font-weight: bold; z-index: 100; position: relative; }
 
-        .tab-wrapper { flex: 1; position: relative; overflow: hidden; background-color: var(--bg-color); width: 100%; }
-        .tab-content { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; padding: 12px 16px; background-color: var(--bg-color); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; }
+        .tab-wrapper { flex: 1; position: relative; overflow: hidden; background-color: var(--bg-color); width: 100%; z-index: 10; }
+        .tab-content { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; overflow-x: hidden; padding: 0 16px 12px 16px; background-color: var(--bg-color); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; }
         .tab-hidden-left { transform: translateX(-100%); }
         .tab-hidden-right { transform: translateX(100%); }
         .tab-active { transform: translateX(0); z-index: 10; }
@@ -90,10 +78,12 @@
         .chat-input { flex: 1; border: 1px solid #E5E8EB; border-radius: 24px; padding: 12px 16px; outline: none; font-size: 14px; background-color: var(--bg-color); width: 100%; transition: opacity 0.2s; }
         .chat-send { background-color: var(--primary-dark); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; transition: background-color 0.2s; }
 
-        /* --- [수강연습 탭] 공백 처리 --- */
+        /* --- [수강연습 탭] 모바일 기본 --- */
         #tab-1 { padding-bottom: 10px; } 
         .warning-banner { background-color: var(--light-orange); color: var(--dark-orange); padding: 12px; border-radius: 12px; font-size: 13px; line-height: 1.4; margin-bottom: 12px; font-weight: 600; flex-shrink: 0; word-break: keep-all; }
-        .stats-wrapper { position: sticky; top: -12px; z-index: 100; background-color: var(--bg-color); padding: 8px 0; margin-bottom: 8px; width: 100%; }
+        
+        /* 🔥 상단 투명화(흰줄) 완벽 차단 */
+        .stats-wrapper { position: sticky; top: -1px; z-index: 100; background-color: var(--bg-color); padding: 8px 0; margin-bottom: 8px; width: 100%; }
         .stats-box { background-color: var(--box-bg); border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 8px; width: 100%; }
         .stats-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: center; }
         .stats-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; }
@@ -109,18 +99,9 @@
 
         .science-track-wrap { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 12px; font-size: 14px; font-weight: bold; color: var(--text-black); gap: 8px; padding: 0 4px; }
         
-        /* 🔥 체크박스 선명하게 수정된 부분 */
         .custom-checkbox { width: 20px; height: 20px; border: 2px solid #D1D6DB; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; background: white; flex-shrink: 0; }
         .custom-checkbox.checked { background-color: var(--primary-dark); border-color: var(--primary-dark); }
-        .custom-checkbox.checked::after { 
-            content: ''; 
-            width: 5px; 
-            height: 9px; 
-            border: solid #FFFFFF; 
-            border-width: 0 2px 2px 0; 
-            transform: rotate(45deg); 
-            margin-bottom: 2px; 
-        }
+        .custom-checkbox.checked::after { content: ''; width: 5px; height: 9px; border: solid #FFFFFF; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-bottom: 2px; }
         .custom-checkbox.disabled { background-color: #F2F4F6; border-color: #E5E8EB; }
         .custom-checkbox.disabled.checked { background-color: #D1D6DB; border-color: #D1D6DB; }
 
@@ -178,7 +159,7 @@
         
         #toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: bold; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
 
-        /* 🥚 이스터에그 스타일 (진짜 최하단 배치 & 히트박스 텍스트 크기 맞춤) */
+        /* 🥚 이스터에그 스타일 */
         .easter-egg-wrap {
             margin-top: auto; 
             padding: 40px 12px 20px 12px; 
@@ -193,11 +174,123 @@
             text-decoration: none; 
             cursor: pointer;
         }
+
+        /* 📢 업데이트 팝업창 스타일 (반응형 모달) */
+        .update-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 99999;
+            display: none; /* JS에서 제어 */
+            justify-content: center; align-items: center;
+            padding: 20px;
+        }
+        .update-modal {
+            width: 100%; max-width: 420px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column;
+        }
+        .update-modal-header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 14px 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 15px; font-weight: bold;
+        }
+        .update-modal-close {
+            background-color: #FFFFFF; color: #191F28;
+            border: none; border-radius: 4px;
+            width: 24px; height: 24px;
+            font-size: 13px; font-weight: bold;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; padding: 0;
+        }
+        .update-modal-body {
+            padding: 30px 20px 40px 20px;
+            display: flex; flex-direction: column; gap: 12px;
+            text-align: left;
+        }
+        .update-modal-title {
+            font-size: 22px; font-weight: 900; color: #000000;
+            word-break: keep-all; line-height: 1.3; margin-bottom: 4px;
+        }
+        .update-modal-desc {
+            font-size: 15px; color: #000000; line-height: 1.5; word-break: keep-all; font-weight: 500;
+        }
+        .middle-asterisk {
+            display: inline-block; transform: translateY(4px); font-size: 16px;
+        }
+        .update-modal-footer {
+            background-color: #222222; color: white;
+            text-align: center; padding: 14px;
+            font-size: 14px; font-weight: bold;
+            cursor: pointer; letter-spacing: 0.5px;
+        }
+
+        /* 🔥 데스크탑-모바일 반응형 완벽 최적화 (회색 여백 제거 & 그리드 자동 나열) */
+        @media (min-width: 800px) {
+            body { background-color: var(--bg-color); } 
+            #app { 
+                max-width: 100%; 
+                border: none; 
+                box-shadow: none; 
+            }
+            .tab-content { padding: 12px 5%; } 
+            
+            /* 학점 박스 한 줄 정렬 (자동 배치) */
+            .stats-box { 
+                flex-direction: row; 
+                flex-wrap: wrap; 
+                padding: 16px 24px;
+                gap: 12px;
+            }
+            .stats-grid-2, .stats-grid-3 { display: contents; } 
+            .stat-item { 
+                flex: 1 1 12%; 
+                min-width: 110px;
+                padding: 12px 8px; 
+            }
+            .stat-title { font-size: 11px; margin-bottom: 4px; }
+            .stat-value { font-size: 16px; }
+
+            /* 과목 리스트 그리드 배치 (화면 너비에 맞춰 한 줄에 3~4개씩 자동 나열) */
+            .accordion-header { padding: 16px 24px; font-size: 15px; }
+            .accordion-inner {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 16px;
+                padding: 0 24px 24px 24px;
+            }
+            
+            /* AI 채팅창 최적화 */
+            .chat-bubble { font-size: 15px; padding: 14px 20px; max-width: 60%; }
+        }
     </style>
 </head>
 <body>
 
 <div id="app">
+    <!-- 📢 업데이트 알림 모달 -->
+    <div id="updateModalOverlay" class="update-modal-overlay">
+        <div class="update-modal">
+            <div class="update-modal-header">
+                <span>2026 김포고 수강신청 도우미(1학년) 업데이트 알림</span>
+                <button class="update-modal-close" onclick="closeUpdateModalToday()">✖</button>
+            </div>
+            <div class="update-modal-body">
+                <div class="update-modal-title">2026 김포고 수강신청 도우미(1학년) Ver. 1.01</div>
+                <div class="update-modal-desc">
+                    <span class="middle-asterisk">*</span> 모바일, 패드, PC에서 자연스럽게 보이도록 비율을 구성했습니다.
+                </div>
+            </div>
+            <div class="update-modal-footer" onclick="closeUpdateModalAlways()">
+                항상 열지 않음 ⓧ
+            </div>
+        </div>
+    </div>
+
     <div class="header">
         2026 김포고 수강신청 도우미(1학년)
         <button id="clearChatBtn" class="clear-chat-btn" onclick="clearChat()">대화 삭제</button>
@@ -301,6 +394,7 @@
             
             <div id="validationResult" class="validation-results"></div>
             
+            <!-- 🥚 이스터에그 영역 (진짜 맨 밑에 배치) -->
             <div class="easter-egg-wrap">
                 <a href="https://gimpohigh.github.io/easteregg/" class="easter-egg">made by 10616 송율근</a>
             </div>
@@ -330,6 +424,30 @@
 </div>
 
 <script>
+    // 🔥 업데이트 팝업 (버전 관리 시스템)
+    const APP_VERSION = "1.01"; // 업데이트 시 이 숫자만 바꾸면 유저들에게 다시 알림창이 뜹니다!
+
+    function checkUpdateModal() {
+        const savedVersion = localStorage.getItem('gimpo_update_version');
+        const closedDate = localStorage.getItem('gimpo_update_closed_date');
+        const todayStr = getTodayStr();
+
+        // 버전이 다르면서, 오늘 하루 닫기를 누르지 않은 유저에게만 표시
+        if (savedVersion !== APP_VERSION && closedDate !== todayStr) {
+            document.getElementById('updateModalOverlay').style.display = 'flex';
+        }
+    }
+
+    function closeUpdateModalToday() {
+        localStorage.setItem('gimpo_update_closed_date', getTodayStr()); // 오늘 하루 안 보기
+        document.getElementById('updateModalOverlay').style.display = 'none';
+    }
+
+    function closeUpdateModalAlways() {
+        localStorage.setItem('gimpo_update_version', APP_VERSION); // 영구 안 보기 (현재 버전 한정)
+        document.getElementById('updateModalOverlay').style.display = 'none';
+    }
+
     // 🔥 Firebase 설정
     const firebaseConfig = {
       apiKey: "AIzaSyD-IyAGGXQ69d8LupTU2mKmr87yoenahRo",
@@ -488,6 +606,9 @@
     }
 
     async function init() {
+        // 모달 체크 실행 (가장 먼저)
+        checkUpdateModal();
+
         try {
             const res = await fetch('https://api.ipify.org?format=json');
             const data = await res.json();
@@ -511,7 +632,7 @@
                 if (savedTrack === 'true') isSciTrack = true;
             }
 
-            // 🔥 필수 과목 누락 방지: 초기화 시 1, 2, 3학년 모든 필수 과목 무조건 선택
+            // 필수 과목 누락 방지: 초기화 시 1, 2, 3학년 모든 필수 과목 무조건 선택
             db.forEach(c => { if(c.req) selectedCourses.add(c.id); }); 
 
             if(isSciTrack) document.getElementById('scTrackCheck').classList.add('checked');
@@ -858,7 +979,6 @@
         });
     }
 
-    // 🔥 [복구 완료] 통계 계산 로직: 1, 2, 3학년 필수 과목 '모두' 정상적으로 합산
     function updateStats() {
         let total = 0, kor = 0, math = 0, eng = 0, his = 0, soc = 0, sci = 0, pe = 0, art = 0, etc = 0;
 
@@ -921,7 +1041,6 @@
             isFail = true;
         }
 
-        // 🔥 [복구 완료] 제출 검사 로직: 1, 2, 3학년 필수 과목 '모두' 정상적으로 검사
         let sums = {국어:0, 수학:0, 영어:0, 한국사:0, 사회:0, 과학:0, 체육:0, 예술:0, '정보/제2외국어/한문/교양':0};
         selectedCourses.forEach(id => {
             const c = db.find(x => x.id === id);
