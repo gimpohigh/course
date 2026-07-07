@@ -47,7 +47,7 @@
         .clear-chat-btn { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background-color: var(--primary-mid); color: white; border: 1px solid white; border-radius: 14px; padding: 6px 10px; font-size: 11px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; white-space: nowrap; }
         .clear-chat-btn:active { background-color: var(--primary-light); }
 
-        /* 실시간 접속자 수 UI (상단 뚫림 방지를 위해 패딩 및 배경 강화) */
+        /* 실시간 접속자 수 UI */
         .live-counter-wrap { text-align: right; padding: 8px 16px 8px; background-color: var(--bg-color); font-size: 10px; color: var(--text-light-gray); font-weight: bold; z-index: 100; position: relative; }
 
         .tab-wrapper { flex: 1; position: relative; overflow: hidden; background-color: var(--bg-color); width: 100%; z-index: 10; }
@@ -81,7 +81,6 @@
         #tab-1 { padding-bottom: 10px; } 
         .warning-banner { background-color: var(--light-orange); color: var(--dark-orange); padding: 12px; border-radius: 12px; font-size: 13px; line-height: 1.4; margin-bottom: 12px; font-weight: 600; flex-shrink: 0; word-break: keep-all; }
         
-        /* 🔥 상단 투명화(흰줄) 완벽 차단 */
         .stats-wrapper { position: sticky; top: -1px; z-index: 100; background-color: var(--bg-color); padding: 8px 0; margin-bottom: 8px; width: 100%; }
         .stats-box { background-color: var(--box-bg); border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 8px; width: 100%; }
         .stats-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: center; }
@@ -100,15 +99,7 @@
         
         .custom-checkbox { width: 20px; height: 20px; border: 2px solid #D1D6DB; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; background: white; flex-shrink: 0; }
         .custom-checkbox.checked { background-color: var(--primary-dark); border-color: var(--primary-dark); }
-        .custom-checkbox.checked::after { 
-            content: ''; 
-            width: 5px; 
-            height: 9px; 
-            border: solid #FFFFFF; 
-            border-width: 0 2px 2px 0; 
-            transform: rotate(45deg); 
-            margin-bottom: 2px; 
-        }
+        .custom-checkbox.checked::after { content: ''; width: 5px; height: 9px; border: solid #FFFFFF; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-bottom: 2px; }
         .custom-checkbox.disabled { background-color: #F2F4F6; border-color: #E5E8EB; }
         .custom-checkbox.disabled.checked { background-color: #D1D6DB; border-color: #D1D6DB; }
 
@@ -244,10 +235,7 @@
                 border: none; 
                 box-shadow: none; 
             }
-            /* 💡 버그 해결: 데스크탑에서도 상단 패딩을 0으로 강제 밀봉하여 스크롤 시 뒤쪽 카드 비침 원천 차단 */
             .tab-content { padding: 0 5% 12px 5%; } 
-            
-            /* 패딩 차단으로 인해 붙어버린 배너에 상단 마진 부여 */
             .warning-banner { margin-top: 12px; }
 
             /* 학점 박스 한 줄 정렬 (자동 배치) */
@@ -441,19 +429,18 @@
         const closedDate = localStorage.getItem('gimpo_update_closed_date');
         const todayStr = getTodayStr();
 
-        // 버전이 다르면서, 오늘 하루 닫기를 누르지 않은 유저에게만 표시
         if (savedVersion !== APP_VERSION && closedDate !== todayStr) {
             document.getElementById('updateModalOverlay').style.display = 'flex';
         }
     }
 
     function closeUpdateModalToday() {
-        localStorage.setItem('gimpo_update_closed_date', getTodayStr()); // 오늘 하루 안 보기
+        localStorage.setItem('gimpo_update_closed_date', getTodayStr());
         document.getElementById('updateModalOverlay').style.display = 'none';
     }
 
     function closeUpdateModalAlways() {
-        localStorage.setItem('gimpo_update_version', APP_VERSION); // 영구 안 보기 (현재 버전 한정)
+        localStorage.setItem('gimpo_update_version', APP_VERSION);
         document.getElementById('updateModalOverlay').style.display = 'none';
     }
 
@@ -493,7 +480,7 @@
         { id:'12_06', sem:'1-2', name:'통합과학 2', type:'공통', cat:'과학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'12_07', sem:'1-2', name:'과학탐구실험 2', type:'공통', cat:'과학', grade:'3단계/등급X', req:true, cred:1 },
         { id:'12_08', sem:'1-2', name:'체육 2', type:'공통', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
-        { id:'12_09', sem:'1-2', name:'미술/음악', type:'공통', cat(--예술), grade:'3단계/등급X', req:true, cred:2 },
+        { id:'12_09', sem:'1-2', name:'미술/음악', type:'공통', cat:'예술', grade:'3단계/등급X', req:true, cred:2 },
         { id:'12_10', sem:'1-2', name:'한문/정보', type:'공통', cat:'정보/한문', grade:'5단계/등급O', req:true, cred:3 },
 
         { id:'21_01', sem:'2-1', name:'문학', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
@@ -504,14 +491,14 @@
         { id:'21_s02', sem:'2-1', name:'인공지능 수학', type:'진로', cat:'수학', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s03', sem:'2-1', name:'영어 독해와 작문', type:'진로', cat:'영어', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s04', sem:'2-1', name:'세계 시민과 지리', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
-        { id:'21_s05', sem(--2-1), name:'세계사', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
+        { id:'21_s05', sem:'2-1', name:'세계사', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s06', sem:'2-1', name:'현대사회와 윤리', type:'일반', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s07', sem:'2-1', name:'정치', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s08', sem:'2-1', name:'경제', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s09', sem:'2-1', name:'물리학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
         { id:'21_s10', sem:'2-1', name:'화학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
         { id:'21_s11', sem:'2-1', name:'생명과학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
-        { id:'21_s12', sem:'2-1', name:'지구과학', type(--일반), cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
+        { id:'21_s12', sem:'2-1', name:'지구과학', type:'일반', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciReq:true },
         { id:'21_s13', sem:'2-1', name:'기초 체육 전공 실기', type:'진로', cat:'체육', grade:'5단계/등급O', req:false, cred:3, pair:'체육실기1' },
         { id:'21_s14', sem:'2-1', name:'인공지능 기초', type:'진로', cat:'정보', grade:'5단계/등급O', req:false, cred:3 },
         { id:'21_s15', sem:'2-1', name:'일본어', type:'일반', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3 },
@@ -520,14 +507,14 @@
         { id:'22_01', sem:'2-2', name:'화법과 언어', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'22_02', sem:'2-2', name:'미적분 I', type:'일반', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
         { id:'22_03', sem:'2-2', name:'영어 II', type:'일반', cat:'영어', grade:'5단계/등급O', req:true, cred:4 },
-        { id(--22_04), sem:'2-2', name:'스포츠 생활 2', type:'융합', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
+        { id:'22_04', sem:'2-2', name:'스포츠 생활 2', type:'융합', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
         { id:'22_s01', sem:'2-2', name:'문학과 영상', type:'진로', cat:'국어', grade:'5단계/등급O', req:false, cred:3 },
-        { id:'22_s02', sem:'2-2', name:'기하', type:'진로', cat:'수학', grade(--5단계/등급O), req:false, cred:3 },
+        { id:'22_s02', sem:'2-2', name:'기하', type:'진로', cat:'수학', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s03', sem:'2-2', name:'영어 발표와 토론', type:'진로', cat:'영어', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s04', sem:'2-2', name:'동아시아 역사 기행', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s05', sem:'2-2', name:'법과 사회', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s06', sem:'2-2', name:'윤리와 사상', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
-        { id:'22_s07', sem:'2-2', name(--한국지리 탐구), name:'한국지리 탐구', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
+        { id:'22_s07', sem:'2-2', name:'한국지리 탐구', type:'진로', cat:'사회', grade:'5단계/등급O', req:false, cred:3 },
         { id:'22_s08', sem:'2-2', name:'금융과 경제생활', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3 },
         { id:'22_s09', sem:'2-2', name:'역학과 에너지', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true },
         { id:'22_s10', sem:'2-2', name:'물질과 에너지', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true },
@@ -554,7 +541,7 @@
         { id:'31_s08', sem:'3-1', name:'기후변화와 지속 가능한 세계', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3, pair:'기후지속' },
         { id:'31_s09', sem:'3-1', name:'전자기와 양자', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'전자기' },
         { id:'31_s10', sem:'3-1', name:'화학 반응의 세계', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'화학반응' },
-        { id:'31_s11', sem:'3-1', name:'생물의 유전', type:'진로', cat:'과학', grade(--5단계/등급O), req:false, cred:3, sciAdv:true, pair:'유전' },
+        { id:'31_s11', sem:'3-1', name:'생물의 유전', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'유전' },
         { id:'31_s12', sem:'3-1', name:'행성우주과학', type:'진로', cat:'과학', grade:'5단계/등급O', req:false, cred:3, sciAdv:true, pair:'행성' },
         { id:'31_s13', sem:'3-1', name:'기후변화와 환경생태', type:'융합', cat:'과학', grade:'5단계/등급X', req:false, cred:3, pair:'기후환경' },
         { id:'31_s14', sem:'3-1', name:'음악 연주와 창작', type:'진로', cat:'예술', grade:'3단계/등급X', req:false, cred:3 },
@@ -589,7 +576,7 @@
         { id:'32_s17', sem:'3-2', name:'중국어 회화', type:'진로', cat:'제2외국어', grade:'5단계/등급O', req:false, cred:3, g:0 },
         { id:'32_s18', sem:'3-2', name:'논리와 사고', type:'진로', cat:'교양', grade:'P/F', req:false, cred:3, pair:'논리', g:0 },
         { id:'32_s19', sem:'3-2', name:'기후변화와 지속 가능한 세계', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3, pair:'기후지속', g:1 },
-        { id:'32_s20', sem:'3-2', name:'사회문제 탐구', type:'융합', cat:'사회', grade(--5단계/등급X), req:false, cred:3, g:1 },
+        { id:'32_s20', sem:'3-2', name:'사회문제 탐구', type:'융합', cat:'사회', grade:'5단계/등급X', req:false, cred:3, g:1 },
         { id:'32_s21', sem:'3-2', name:'과학의 역사와 문화', type:'융합', cat:'과학', grade:'5단계/등급X', req:false, cred:3, g:2 },
         { id:'32_s22', sem:'3-2', name:'기후변화와 환경생태', type:'융합', cat:'과학', grade:'5단계/등급X', req:false, cred:3, pair:'기후환경', g:2 }
     ];
@@ -615,7 +602,6 @@
     }
 
     async function init() {
-        // 모달 체크 실행 (가장 먼저)
         checkUpdateModal();
 
         try {
@@ -641,7 +627,6 @@
                 if (savedTrack === 'true') isSciTrack = true;
             }
 
-            // 필수 과목 누락 방지: 초기화 시 1, 2, 3학년 모든 필수 과목 무조건 선택
             db.forEach(c => { if(c.req) selectedCourses.add(c.id); }); 
 
             if(isSciTrack) document.getElementById('scTrackCheck').classList.add('checked');
@@ -988,7 +973,6 @@
         });
     }
 
-    // 🔥 [복구 완료] 통계 계산 로직: 1, 2, 3학년 필수 과목 '모두' 정상적으로 합산
     function updateStats() {
         let total = 0, kor = 0, math = 0, eng = 0, his = 0, soc = 0, sci = 0, pe = 0, art = 0, etc = 0;
 
@@ -1051,7 +1035,6 @@
             isFail = true;
         }
 
-        // 🔥 [복구 완료] 제출 검사 로직: 1, 2, 3학년 필수 과목 '모두' 정상적으로 검사
         let sums = {국어:0, 수학:0, 영어:0, 한국사:0, 사회:0, 과학:0, 체육:0, 예술:0, '정보/제2외국어/한문/교양':0};
         selectedCourses.forEach(id => {
             const c = db.find(x => x.id === id);
@@ -1276,14 +1259,12 @@
             return;
         }
 
-        // 🚀 안전하게 내 구글 중간 서버(GAS)를 거쳐서 AI 답변 가져오기
         try {
             const schoolData = db.map(c => `- ${c.sem} ${c.req ? '필수' : '선택'}: ${c.name} (${c.cat}, ${c.cred}학점)`).join('\n');
             const sysPrompt = `너는 2026 김포고등학교 1학년 수강신청을 돕는 '김포고 수강신청 도우미 AI'야. 반드시 아래 제공된 '김포고등학교 과목 데이터'만을 기반으로 평문으로 친절하게 답변해.`;
             
             let apiContents = chatHistory.map(h => ({ role: h.role, text: h.text }));
 
-            // 구글 중간 서버로 질문 전송 (CORS 우회를 위해 text/plain 사용)
             const response = await fetch(GAS_AI_URL, {
                 method: 'POST',
                 headers: {
@@ -1297,12 +1278,10 @@
             
             const data = await response.json();
             
-            // 🔥 여기서 구글 서버의 에러를 완벽하게 방어합니다!
             if (data.error) {
                 console.error("AI 서버 에러:", data.error);
                 let errorMsg = "앗, AI 서버가 혼잡합니다. 잠시 후 다시 질문해 주세요!";
                 
-                // 에러가 객체(Object)로 오든 문자(String)로 오든 안전하게 처리
                 let errStr = "";
                 if (typeof data.error === 'object') {
                     errStr = JSON.stringify(data.error);
@@ -1310,13 +1289,12 @@
                     errStr = String(data.error);
                 }
 
-                // 한도 초과(429) 에러 감지
                 if (errStr.includes("429") || errStr.includes("RESOURCE_EXHAUSTED") || errStr.includes("exceeded")) {
                     errorMsg = "현재 질문하는 학생이 너무 많습니다! ⏳ 1분만 기다렸다가 다시 질문해 주세요.";
                 }
                 
                 document.getElementById(loadingId).innerText = errorMsg;
-                chatHistory.pop(); // 에러 났으니 방금 한 질문 취소
+                chatHistory.pop(); 
             } else {
                 let answer = data.candidates[0].content.parts[0].text;
                 answer = answer.replace(/\*/g, ''); 
