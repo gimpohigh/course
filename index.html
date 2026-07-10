@@ -84,6 +84,8 @@
         /* 🔥 상단 투명화(흰줄) 완벽 차단 */
         .stats-wrapper { position: sticky; top: -1px; z-index: 100; background-color: var(--bg-color); padding: 8px 0; margin-bottom: 8px; width: 100%; }
         .stats-box { background-color: var(--box-bg); border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        
+        /* 🔥 그리드 재배치 적용 */
         .stats-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: center; }
         .stats-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; }
         
@@ -98,7 +100,6 @@
 
         .science-track-wrap { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 12px; font-size: 14px; font-weight: bold; color: var(--text-black); gap: 8px; padding: 0 4px; }
         
-        /* 🔥 체크박스 선명하게 수정된 부분 */
         .custom-checkbox { width: 20px; height: 20px; border: 2px solid #D1D6DB; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; background: white; flex-shrink: 0; }
         .custom-checkbox.checked { background-color: var(--primary-dark); border-color: var(--primary-dark); }
         .custom-checkbox.checked::after { content: ''; width: 5px; height: 9px; border: solid #FFFFFF; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-bottom: 2px; }
@@ -229,7 +230,7 @@
             cursor: pointer; letter-spacing: 0.5px;
         }
 
-        /* 🔥 데스크탑-모바일 반응형 완벽 최적화 및 상단 뚫림 방지 버그 픽스 */
+        /* 🔥 데스크탑-모바일 반응형 완벽 최적화 */
         @media (min-width: 800px) {
             body { background-color: var(--bg-color); } 
             #app { 
@@ -280,9 +281,9 @@
                 <button class="update-modal-close" onclick="closeUpdateModalToday()">✖</button>
             </div>
             <div class="update-modal-body">
-                <div class="update-modal-title">2026 김포고 수강신청 도우미(1학년) Ver. 1.01</div>
+                <div class="update-modal-title">2026 김포고 수강신청 도우미(1학년) Ver. 1.02</div>
                 <div class="update-modal-desc">
-                    <span class="middle-asterisk">*</span> 모바일, 패드, PC에서 자연스럽게 보이도록 비율을 구성했습니다.
+                    <span class="middle-asterisk">*</span> 정보 과목 학점과 수학/과학/정보 과목의 총 학점을 추가했습니다.
                 </div>
             </div>
             <div class="update-modal-footer" onclick="closeUpdateModalAlways()">
@@ -372,10 +373,14 @@
                         <div class="stat-item"><div class="stat-title">사회</div><div class="stat-value"><span id="val-soc" class="stat-val-left">0</span><span class="stat-val-right">/ 8</span></div></div>
                         <div class="stat-item"><div class="stat-title">과학</div><div class="stat-value"><span id="val-sci" class="stat-val-left">0</span><span class="stat-val-right">/ 10</span></div></div>
                     </div>
-                    <div class="stats-grid-3">
+                    <div class="stats-grid-2">
                         <div class="stat-item"><div class="stat-title">체육</div><div class="stat-value"><span id="val-pe" class="stat-val-left">0</span><span class="stat-val-right">/ 10</span></div></div>
                         <div class="stat-item"><div class="stat-title">예술</div><div class="stat-value"><span id="val-art" class="stat-val-left">0</span><span class="stat-val-right">/ 6</span></div></div>
-                        <div class="stat-item"><div class="stat-title">정보/외국어/교양</div><div class="stat-value"><span id="val-etc" class="stat-val-left">0</span><span class="stat-val-right">/ 15</span></div></div>
+                    </div>
+                    <div class="stats-grid-3">
+                        <div class="stat-item"><div class="stat-title">정보</div><div class="stat-value"><span id="val-info" class="stat-val-left">0</span><span class="stat-val-right"></span></div></div>
+                        <div class="stat-item"><div class="stat-title">수/과/정 총합</div><div class="stat-value"><span id="val-msi" class="stat-val-left">0</span><span class="stat-val-right"></span></div></div>
+                        <div class="stat-item"><div class="stat-title">정보/외국어/한문/교양</div><div class="stat-value"><span id="val-etc" class="stat-val-left">0</span><span class="stat-val-right">/ 15</span></div></div>
                     </div>
                 </div>
             </div>
@@ -407,7 +412,7 @@
 
     <div class="bottom-nav">
         <div class="nav-item" id="nav-0" onclick="switchTab(0)">
-            <div class="nav-icon">⚙️</div>
+            <div class="nav-icon">🤖</div>
             AI 추천
         </div>
         <div class="nav-item active" id="nav-1" onclick="switchTab(1)">
@@ -424,7 +429,7 @@
 
 <script>
     // 🔥 업데이트 팝업 (버전 관리 시스템)
-    const APP_VERSION = "1.01"; // 업데이트 시 이 숫자만 바꾸면 유저들에게 다시 알림창이 뜹니다!
+    const APP_VERSION = "1.02"; // 👉 1.02 버전 업데이트 적용 완료!
 
     function checkUpdateModal() {
         const savedVersion = localStorage.getItem('gimpo_update_version');
@@ -462,7 +467,6 @@
 
     let userIP = "local_storage_only";
 
-    // 🔥 오타 완벽하게 복구 완료된 과목 데이터베이스
     const db = [
         { id:'11_01', sem:'1-1', name:'공통국어 1', type:'공통', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'11_02', sem:'1-1', name:'공통수학 1', type:'공통', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
@@ -473,7 +477,7 @@
         { id:'11_07', sem:'1-1', name:'과학탐구실험 1', type:'공통', cat:'과학', grade:'3단계/등급X', req:true, cred:1 },
         { id:'11_08', sem:'1-1', name:'체육 1', type:'공통', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
         { id:'11_09', sem:'1-1', name:'음악/미술', type:'공통', cat:'예술', grade:'3단계/등급X', req:true, cred:2 },
-        { id:'11_10', sem:'1-1', name:'정보/한문', type:'공통', cat:'정보/한문', grade:'5단계/등급O', req:true, cred:3 },
+        { id:'11_10', sem:'1-1', name:'정보/한문', type:'공통', cat:'정보', grade:'5단계/등급O', req:true, cred:3 }, 
         
         { id:'12_01', sem:'1-2', name:'공통국어 2', type:'공통', cat:'국어', grade:'5단계/등급O', req:true, cred:3 },
         { id:'12_02', sem:'1-2', name:'공통수학 2', type:'공통', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
@@ -484,7 +488,7 @@
         { id:'12_07', sem:'1-2', name:'과학탐구실험 2', type:'공통', cat:'과학', grade:'3단계/등급X', req:true, cred:1 },
         { id:'12_08', sem:'1-2', name:'체육 2', type:'공통', cat:'체육', grade:'3단계/등급X', req:true, cred:2 },
         { id:'12_09', sem:'1-2', name:'미술/음악', type:'공통', cat:'예술', grade:'3단계/등급X', req:true, cred:2 },
-        { id:'12_10', sem:'1-2', name:'한문/정보', type:'공통', cat:'정보/한문', grade:'5단계/등급O', req:true, cred:3 },
+        { id:'12_10', sem:'1-2', name:'한문/정보', type:'공통', cat:'정보', grade:'5단계/등급O', req:true, cred:3 }, 
 
         { id:'21_01', sem:'2-1', name:'문학', type:'일반', cat:'국어', grade:'5단계/등급O', req:true, cred:4 },
         { id:'21_02', sem:'2-1', name:'대수', type:'일반', cat:'수학', grade:'5단계/등급O', req:true, cred:4 },
@@ -976,8 +980,9 @@
         });
     }
 
+    // 🔥 정보 학점 및 수/과/정 총합, 정보/외국어/한문/교양 완벽 분리 합산
     function updateStats() {
-        let total = 0, kor = 0, math = 0, eng = 0, his = 0, soc = 0, sci = 0, pe = 0, art = 0, etc = 0;
+        let total = 0, kor = 0, math = 0, eng = 0, his = 0, soc = 0, sci = 0, pe = 0, art = 0, info = 0, etc = 0;
 
         selectedCourses.forEach(id => {
             const c = db.find(x => x.id === id);
@@ -993,10 +998,14 @@
             else if(c.cat === '과학') sci += c.cred;
             else if(c.cat === '체육') pe += c.cred;
             else if(c.cat === '예술') art += c.cred;
-            else etc += c.cred; 
+            else {
+                etc += c.cred; // 정보, 제2외국어, 한문, 교양은 15학점 조건용으로 모두 etc에 담음
+                if(c.cat === '정보') info += c.cred; // 정보는 단독 박스와 수과정을 위해 별도로도 누적
+            }
         });
 
         const kys = kor + math + eng;
+        const msi = math + sci + info; // 수학 + 과학 + 정보 총합 계산
 
         updateStatUI('total', total, 174, false);
         updateStatUI('kys', kys, 81, true);
@@ -1008,13 +1017,26 @@
         updateStatUI('sci', sci, 10, false);
         updateStatUI('pe', pe, 10, false);
         updateStatUI('art', art, 6, false);
-        updateStatUI('etc', etc, 15, false);
+        
+        // 제한이 없는 순수 계산용 학점 (isLimit = false, target = 0)
+        updateStatUI('info', info, 0, false); 
+        updateStatUI('msi', msi, 0, false); 
+        
+        updateStatUI('etc', etc, 15, false); // 정보, 외국어, 한문, 교양 모두 합산된 값
     }
 
     function updateStatUI(id, val, target, isLimit) {
         const el = document.getElementById(`val-${id}`);
         if(!el) return;
         el.innerText = val;
+        
+        // 🔥 목표(target)가 0인 제한 없는 학점박스(정보, 수과정)는 무조건 연두색 칠하기
+        if(target === 0) {
+            el.classList.remove('color-red');
+            el.classList.add('color-green');
+            return;
+        }
+
         el.classList.remove('color-green', 'color-red');
         if(isLimit) {
             if(val <= target) el.classList.add('color-green');
@@ -1049,7 +1071,7 @@
             else if(c.cat === '과학') sums['과학']+=c.cred;
             else if(c.cat === '체육') sums['체육']+=c.cred;
             else if(c.cat === '예술') sums['예술']+=c.cred;
-            else sums['정보/제2외국어/한문/교양']+=c.cred;
+            else sums['정보/제2외국어/한문/교양']+=c.cred; // 정보, 외국어, 한문, 교양 모두 합산
         });
 
         const reqs = {국어:8, 수학:8, 영어:8, 한국사:6, 사회:8, 과학:10, 체육:10, 예술:6, '정보/제2외국어/한문/교양':15};
@@ -1172,7 +1194,6 @@
         }
     }
 
-    // 🎯 구글 앱스 스크립트(GAS) 웹 앱 주소
     const GAS_AI_URL = "https://script.google.com/macros/s/AKfycbxR1hXKaq-LHKmUptx5eHIm98VMfzf5B9-lNiUyBM7_kEIvPQt6s9odbO_rqCcP1z7T/exec";
 
     const predefinedAnswers = {
